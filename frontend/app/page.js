@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getAllJobs } from '../services/api';
 import JobCard from '../components/JobCard';
 import FilterBar from '../components/FilterBar';
@@ -9,7 +9,8 @@ import EmptyState from '../components/EmptyState';
 
 export default function Home() {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [filterLoading, setFilterLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     category: '',
@@ -17,21 +18,44 @@ export default function Home() {
     search: '',
   });
 
+  const debounceTimer = useRef(null);
+  const isFirstLoad = useRef(true);
+
   useEffect(() => {
-    fetchJobs();
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      fetchJobs();
+    }, 400);
+
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
   }, [filters]);
 
   const fetchJobs = async () => {
     try {
-      setLoading(true);
+      if (isFirstLoad.current) {
+        setInitialLoading(true);
+      } else {
+        setFilterLoading(true);
+      }
+
       setError(null);
+
       const data = await getAllJobs(filters);
-      setJobs(data.data);
+      setJobs(data.data || []);
     } catch (err) {
       setError('Failed to load jobs. Please try again later.');
       console.error('Error fetching jobs:', err);
     } finally {
-      setLoading(false);
+      setInitialLoading(false);
+      setFilterLoading(false);
+      isFirstLoad.current = false;
     }
   };
 
@@ -39,18 +63,8 @@ export default function Home() {
     setFilters(newFilters);
   };
 
-  if (loading) {
+  if (initialLoading) {
     return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-          {error}
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -60,11 +74,21 @@ export default function Home() {
           Available Service Requests
         </h2>
         <p className="text-gray-600">
-          Browse and manage service requests from homeowners
+          Browse available homeowner service requests
         </p>
       </div>
 
       <FilterBar filters={filters} onFilterChange={handleFilterChange} />
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
+
+      {filterLoading && (
+        <p className="text-sm text-gray-500 mb-4">Updating results...</p>
+      )}
 
       {jobs.length === 0 ? (
         <EmptyState />

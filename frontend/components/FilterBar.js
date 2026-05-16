@@ -1,26 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-
 export default function FilterBar({ filters, onFilterChange }) {
-  const [localFilters, setLocalFilters] = useState(filters);
-
   const categories = ['Plumbing', 'Electrical', 'Painting', 'Joinery'];
   const statuses = ['Open', 'In Progress', 'Closed'];
 
   const handleFilterChange = (name, value) => {
-    const newFilters = { ...localFilters, [name]: value };
-    setLocalFilters(newFilters);
-    onFilterChange(newFilters);
+    onFilterChange({
+      ...filters,
+      [name]: value,
+    });
   };
 
   const handleClearFilters = () => {
-    const clearedFilters = { category: '', status: '', search: '' };
-    setLocalFilters(clearedFilters);
-    onFilterChange(clearedFilters);
+    onFilterChange({
+      category: '',
+      status: '',
+      search: '',
+    });
   };
 
-  const hasActiveFilters = localFilters.category || localFilters.status || localFilters.search;
+  const hasActiveFilters =
+    filters.category || filters.status || filters.search;
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -32,7 +32,7 @@ export default function FilterBar({ filters, onFilterChange }) {
           <input
             type="text"
             id="search"
-            value={localFilters.search}
+            value={filters.search}
             onChange={(e) => handleFilterChange('search', e.target.value)}
             placeholder="Search jobs..."
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -45,7 +45,7 @@ export default function FilterBar({ filters, onFilterChange }) {
           </label>
           <select
             id="category"
-            value={localFilters.category}
+            value={filters.category}
             onChange={(e) => handleFilterChange('category', e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           >
@@ -64,7 +64,7 @@ export default function FilterBar({ filters, onFilterChange }) {
           </label>
           <select
             id="status"
-            value={localFilters.status}
+            value={filters.status}
             onChange={(e) => handleFilterChange('status', e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           >
@@ -81,6 +81,7 @@ export default function FilterBar({ filters, onFilterChange }) {
       {hasActiveFilters && (
         <div className="mt-4">
           <button
+            type="button"
             onClick={handleClearFilters}
             className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
           >
