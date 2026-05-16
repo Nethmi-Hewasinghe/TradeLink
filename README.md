@@ -17,6 +17,7 @@ This project was built as a Full-Stack Developer Intern technical assessment.
 - Keyword search functionality
 - JWT-based authentication
 - Protected routes
+- Users must log in before posting or deleting a job request
 - Responsive modern UI
 - REST API architecture
 - Unit testing with Jest
@@ -201,6 +202,7 @@ npm test
 - Keyword search functionality
 - JWT authentication
 - Protected routes
+- Authentication required for posting and deleting jobs
 - Unit testing with Jest and Supertest
 - Database seed script
 
