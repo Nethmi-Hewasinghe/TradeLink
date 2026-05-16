@@ -139,16 +139,16 @@ You should see the Service Request Board home page with jobs (if you ran the see
 
 ## Verification Checklist
 
-✅ **Backend Running**
+ **Backend Running**
 - Terminal shows "Server running on port 5000"
 - Terminal shows "MongoDB Connected"
 - No error messages
 
-✅ **Frontend Running**
+ **Frontend Running**
 - Terminal shows "ready started server"
 - No compilation errors
 
-✅ **Application Working**
+ **Application Working**
 - Browser opens to http://localhost:3000
 - Home page loads
 - Jobs are displayed (if seeded)
@@ -256,12 +256,12 @@ Expected response:
 
 Once everything is running:
 
-1. ✅ Browse existing jobs
-2. ✅ Create a new job
-3. ✅ Click on a job to view details
-4. ✅ Update job status
-5. ✅ Test search and filters
-6. ✅ Delete a job
+1.  Browse existing jobs
+2.  Create a new job
+3.  Click on a job to view details
+4.  Update job status
+5.  Test search and filters
+6.  Delete a job
 
 ## Development Commands
 
