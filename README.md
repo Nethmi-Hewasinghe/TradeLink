@@ -157,6 +157,46 @@ http://localhost:3000
 
 ---
 
+# 🌱 Database Seeding
+
+A seed script is included to insert sample service requests into the MongoDB database.
+
+Before running the seed command, make sure the backend `.env` file is created and contains a valid MongoDB connection string:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+```
+
+Navigate to the backend folder:
+
+```bash
+cd backend
+```
+
+Run the seed script:
+
+```bash
+npm run seed
+```
+
+This will insert sample job requests into the `jobRequests` collection.
+
+After seeding, start the backend and frontend again:
+
+```bash
+npm run dev
+```
+
+Then open the frontend:
+
+```txt
+http://localhost:3000
+```
+
+You should see the sample jobs displayed on the home page.
+
+---
+
 # 📡 API Endpoints
 
 ## Jobs
@@ -194,6 +234,10 @@ Run tests:
 ```bash
 npm test
 ```
+
+Testing tools used:
+- Jest
+- Supertest
 
 ---
 
