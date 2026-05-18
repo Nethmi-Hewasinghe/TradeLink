@@ -279,4 +279,4 @@ The project is currently configured for local development and testing.
 
 Nethmi Hewasinghe
 
-Built as part of a Full-Stack Developer Intern technical assessment.
+Built as part of a Software Engineer Internship technical assessment.
