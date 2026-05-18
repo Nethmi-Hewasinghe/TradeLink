@@ -71,7 +71,7 @@ service-request-board/
 ├── README.md
 ├── INSTALL.md
 ├── TESTING_GUIDE.md
-└── ARCHITECTURE.md
+
 ```
 
 ---
